@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# My Framework
 
-## Getting Started
+> **Modern Next.js Application Framework**
+>
+> Một nền tảng phát triển ứng dụng web mạnh mẽ, modular và dễ mở rộng.
 
-First, run the development server:
+## 📚 Tài Liệu Dự Án (Documentation)
+
+Tài liệu được phân loại theo vai trò để bạn dễ dàng tìm kiếm thông tin cần thiết:
+
+### 🚀 Cho Người Mới (General)
+*   [**Tổng Quan Dự Án**](./docs/general/OVERVIEW.md): Giới thiệu kiến trúc, công nghệ và luồng hoạt động.
+*   [**Bắt Đầu (Getting Started)**](./docs/general/GETTING_STARTED.md): Hướng dẫn cài đặt và chạy dự án.
+
+### 💻 Cho Developer (Development)
+*   [**Frontend Guide**](./docs/development/FRONTEND_GUIDE.md): Cấu trúc component, styling, i18n.
+*   [**State Management**](./docs/development/STATE_MANAGEMENT.md): Hướng dẫn sử dụng Zustand & React Query.
+*   [**Backend & API**](./docs/development/BACKEND_API_GUIDE.md): Cấu trúc API routes và Authentication.
+*   [**Testing Guide**](./docs/TESTING_GUIDE.md): Hướng dẫn viết và chạy test.
+
+### ⚙️ Cho DevOps (Operations)
+*   [**Deployment Guide**](./docs/operations/DEPLOYMENT.md): Quy trình build, deploy và cấu hình server.
+*   [**Environment Config**](./docs/ENV_CONFIG.md): Chi tiết các biến môi trường.
+
+### 📊 Cho Quản Lý (Management)
+*   [**Trạng Thái Dự Án**](./docs/management/PROJECT_STATUS.md): Tiến độ, tính năng và roadmap.
+
+---
+
+## ⚡ Quick Start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# 1. Clone dự án
+git clone <repo-url>
+
+# 2. Cài đặt dependencies
+pnpm install
+
+# 3. Chạy development server
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Truy cập [http://localhost:3000](http://localhost:3000) để xem ứng dụng.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🏗️ Tech Stack Highlights
 
-## Learn More
+*   **Core**: Next.js 16 (App Router), React 19, TypeScript.
+*   **State**: Zustand (Modular), React Query.
+*   **Style**: Tailwind CSS v4.
+*   **Test**: Vitest, Testing Library.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+*Documentation Version: 1.0.0 (Updated: 2025-11-23)*
