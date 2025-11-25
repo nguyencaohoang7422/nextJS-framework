@@ -31,6 +31,7 @@ http.interceptors.request.use(
 
     // Get token from store
     const token = useStore.getState().auth.user?.token;
+    console.log("🚀 ~ token:", token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

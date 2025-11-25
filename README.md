@@ -40,7 +40,7 @@ pnpm install
 pnpm dev
 ```
 
-Truy cập [http://localhost:3000](http://localhost:3000) để xem ứng dụng.
+Truy cập [http://localhost:3002](http://localhost:3002) để xem ứng dụng.
 
 ---
 

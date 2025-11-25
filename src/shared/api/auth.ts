@@ -97,6 +97,30 @@ export const authApi = {
       .then((r) => r.data);
   },
 
+  loginWithToken: async (token: string) => {
+    if (process.env.NEXT_PUBLIC_MOCK === "true") {
+      // Simulate a short network delay
+      return new Promise<ApiResponse<User>>((resolve) => {
+        setTimeout(() => {
+          resolve({ success: true, result: getMockUser(), message: null });
+        }, 300);
+      });
+    }
+
+    http.interceptors.request.use((config) => {
+      if (token) {
+        config.headers = config.headers ?? {};
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    });
+    // Real request - token should be sent via header in http interceptor
+    // The http instance should automatically attach the token from cookies
+    return await http
+      .post<AuthResponse<User>>(API_ENDPOINTS.auth.login, {})
+      .then((r) => r.data);
+  },
+
   // -----------------------------------------------------------------
   // Logout – just resolves in mock mode
   // -----------------------------------------------------------------

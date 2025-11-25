@@ -1,12 +1,13 @@
 "use client";
 
+import { Button as ShadcnButton } from "@/components/ui/button";
 import { clsx } from "clsx";
+import { Loader2 } from "lucide-react";
 import React, { forwardRef, useEffect, useState } from "react";
-import styles from "./Button.module.css";
 import type { ButtonProps } from "./Button.types";
 
 export const Button = forwardRef<
-  HTMLButtonElement | HTMLAnchorElement,
+  HTMLButtonElement | HTMLAnchorElement | null,
   ButtonProps
 >(
   (
@@ -40,26 +41,34 @@ export const Button = forwardRef<
         }, loading?.delay);
         return () => clearTimeout(timer);
       }
-      // No need to set state when not delayed
     }, [loading]);
 
     const isLoading = typeof loading === "object" ? innerLoading : loading;
 
-    const classes = clsx(
-      styles.button,
-      styles[`button-${type}`],
-      styles[`button-${size}`],
-      styles[`button-${shape}`],
-      {
-        [styles["button-loading"]]: isLoading,
-        [styles["button-disabled"]]: disabled,
-        [styles["button-danger"]]: danger,
-        [styles["button-ghost"]]: ghost,
-        [styles["button-block"]]: block,
-        [styles["button-icon-only"]]: !children && icon,
-      },
-      className,
-    );
+    // Map custom button type to shadcn variant
+    const getVariant = () => {
+      if (danger) return "destructive";
+      if (ghost) return "ghost";
+      if (type === "primary") return "default";
+      if (type === "dashed" || type === "default") return "outline";
+      if (type === "text") return "ghost";
+      if (type === "link") return "link";
+      return "default";
+    };
+
+    // Map custom size to shadcn size
+    const getShadcnSize = () => {
+      if (size === "small") return "sm";
+      if (size === "large") return "lg";
+      return "default";
+    };
+
+    // Additional classes for custom features
+    const additionalClasses = clsx({
+      "w-full": block,
+      "rounded-full": shape === "circle" || shape === "round",
+      "aspect-square p-0": shape === "circle",
+    });
 
     const handleClick = (
       e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>,
@@ -72,19 +81,15 @@ export const Button = forwardRef<
     };
 
     const iconNode = isLoading ? (
-      <span className={styles["button-loading-icon"]}>
-        <svg className={styles.spinner} viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="10" />
-        </svg>
-      </span>
+      <Loader2 className="h-4 w-4 animate-spin" />
     ) : icon ? (
-      <span className={styles["button-icon"]}>{icon}</span>
+      <span className="inline-flex items-center">{icon}</span>
     ) : null;
 
     const content = (
       <>
         {iconNode}
-        {children && <span className={styles["button-text"]}>{children}</span>}
+        {children && <span>{children}</span>}
       </>
     );
 
@@ -92,10 +97,13 @@ export const Button = forwardRef<
     if (href && !disabled) {
       return (
         <a
-          ref={ref as React.Ref<HTMLAnchorElement>}
           href={href}
           target={target}
-          className={classes}
+          className={clsx(
+            "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+            additionalClasses,
+            className,
+          )}
           onClick={handleClick}
           {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
         >
@@ -105,16 +113,18 @@ export const Button = forwardRef<
     }
 
     return (
-      <button
+      <ShadcnButton
         ref={ref as React.Ref<HTMLButtonElement>}
         type={htmlType}
+        variant={getVariant()}
+        size={getShadcnSize()}
         disabled={disabled || isLoading}
-        className={classes}
+        className={clsx(additionalClasses, className)}
         onClick={handleClick}
         {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}
       >
         {content}
-      </button>
+      </ShadcnButton>
     );
   },
 );

@@ -16,26 +16,23 @@ import { VersionCheck } from "@/shared/components/VersionCheck";
 import { I18nProvider } from "@/providers/I18nProvider";
 
 import { ThemeProvider } from "@/providers/ThemeProvider";
+import AuthRedirectPage from "./(auth)/page";
 
 export default function RootLayout({
   children,
-  sidebar,
-  header,
 }: {
   children: ReactNode;
   sidebar: ReactNode;
   header: ReactNode;
 }) {
   return (
-    <html lang="vi">
+    <html lang="en">
       <body suppressHydrationWarning>
         <ReactQueryProvider>
           <ThemeProvider>
             <I18nProvider>
-              {header}
-              {sidebar}
               <VersionCheck />
-              {children}
+              <AuthRedirectPage>{children}</AuthRedirectPage>
               <ToastContainer />
               <GlobalLoadingContainer />
             </I18nProvider>

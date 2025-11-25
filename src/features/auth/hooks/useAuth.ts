@@ -1,5 +1,5 @@
 "use client";
-
+import { authConfig } from "@/config/env";
 import { authApi } from "@/shared/api/auth";
 import { User } from "@/shared/types";
 import { useStore as useMainStore } from "@/stores";
@@ -34,18 +34,42 @@ export function useAuth() {
   return query;
 }
 
+function setCookie(cookieName: string, cookieValue: string) {
+  document.cookie = `${cookieName}=${cookieValue}; path=/;`;
+}
+
+// Type for login payload - supports both username/password and token authentication
+type LoginPayload =
+  | { type: "credentials"; username: string; password: string }
+  | { type: "token"; token: string };
 export function useLogin() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (payload: { username: string; password: string }) =>
-      authApi.login({ username: payload.username, password: payload.password }),
+    mutationFn: async (payload: LoginPayload) => {
+      // Option 1: Login with username and password
+      if (payload.type === "credentials") {
+        return await authApi.login({
+          username: payload.username,
+          password: payload.password,
+        });
+      }
+      // Option 2: Login with token (sent via header)
+      else if (payload.type === "token") {
+        return await authApi.loginWithToken(payload.token);
+      }
+      throw new Error("Invalid login payload type");
+    },
     onSuccess(query) {
       if (query?.result) {
         // Sync with old store (backward compatibility)
         useAuthStore.getState().setUser(query?.result);
-
         // Sync with new store
         useMainStore.getState().auth.setUser(query?.result);
+        if (query?.result?.token) {
+          setCookie(authConfig.cookieName, query?.result?.token);
+        } else {
+          throw new Error("Token is not found");
+        }
       }
       // refetch me to populate user
       queryClient.invalidateQueries({ queryKey: ["auth"] });
@@ -53,10 +77,19 @@ export function useLogin() {
   });
 }
 
+function deleteCookie(cookieName: string) {
+  document.cookie.split(";").forEach((cookie) => {
+    const name = cookie.split("=")[0].trim();
+    if (name === cookieName) {
+      document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    }
+  });
+}
+
 export function useLogout() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: () => authApi.logout(),
+    mutationFn: async () => await authApi.logout(),
     onSuccess() {
       queryClient.setQueryData(["auth"], null);
 
@@ -65,6 +98,9 @@ export function useLogout() {
 
       // Clear new store
       useMainStore.getState().auth.clearUser();
+
+      // Clear cookie
+      deleteCookie(authConfig.cookieName);
     },
   });
 }

@@ -1,6 +1,6 @@
+import { Input as ShadcnInput } from "@/components/ui/input";
 import clsx from "clsx";
 import { forwardRef } from "react";
-import styles from "./Input.module.css";
 import type { InputProps } from "./Input.types";
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -16,22 +16,47 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     },
     ref,
   ) => {
-    const classes = clsx(
-      styles.input,
-      styles[`input-${size}`],
+    // Map size to height classes
+    const sizeClasses = {
+      small: "h-8 text-xs",
+      default: "h-9 text-sm",
+      large: "h-10 text-base",
+    };
+
+    const inputClasses = clsx(
+      sizeClasses[size],
       {
-        [styles["input-block"]]: block,
-        [styles["input-error"]]: error,
-        [styles["input-disabled"]]: disabled,
+        "w-full": block,
+        "border-destructive focus-visible:ring-destructive": error,
+        "pl-10": icon, // Add left padding if icon exists
       },
       className,
     );
 
+    // If there's an icon, wrap in a container
+    if (icon) {
+      return (
+        <div className="relative">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+            {icon}
+          </span>
+          <ShadcnInput
+            ref={ref}
+            className={inputClasses}
+            disabled={disabled}
+            {...rest}
+          />
+        </div>
+      );
+    }
+
     return (
-      <div className={styles.wrapper}>
-        {icon && <span className={styles["input-icon"]}>{icon}</span>}
-        <input ref={ref} className={classes} disabled={disabled} {...rest} />
-      </div>
+      <ShadcnInput
+        ref={ref}
+        className={inputClasses}
+        disabled={disabled}
+        {...rest}
+      />
     );
   },
 );

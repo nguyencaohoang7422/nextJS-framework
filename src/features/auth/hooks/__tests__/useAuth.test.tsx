@@ -33,6 +33,7 @@ describe("useLogin", () => {
     });
 
     result.current.mutate({
+      type: "credentials",
       username: "alice@example.com",
       password: "password123",
     });
@@ -48,6 +49,7 @@ describe("useLogin", () => {
     });
 
     result.current.mutate({
+      type: "credentials",
       username: "wrong@example.com",
       password: "wrongpassword",
     });

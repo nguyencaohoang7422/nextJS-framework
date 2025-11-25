@@ -114,7 +114,7 @@ export const appConfig: AppConfig = {
   isProduction: getEnv("NODE_ENV", "development") === "production",
   isTest: getEnv("NODE_ENV", "development") === "test",
   appName: getEnv("NEXT_PUBLIC_APP_NAME", "My Framework"),
-  appUrl: getEnv("NEXT_PUBLIC_APP_URL", "http://localhost:3000"),
+  appUrl: getEnv("NEXT_PUBLIC_APP_URL", "http://localhost:3002"),
 };
 
 /**
@@ -123,15 +123,15 @@ export const appConfig: AppConfig = {
 export const authConfig: AuthConfig = {
   jwtSecret: getEnv("JWT_SECRET", "dev-secret"),
   jwtExpiresIn: getEnv("JWT_EXPIRES_IN", "7d"),
-  cookieName: getEnv("COOKIE_NAME", "app_token"),
+  cookieName: getEnv("COOKIE_NAME", "demo_token"),
 };
 
 /**
  * API Configuration
  */
 export const apiConfig: ApiConfig = {
-  baseUrl: getEnv("NEXT_PUBLIC_API_URL", "http://localhost:3000/api"),
-  timeout: getNumberEnv("NEXT_PUBLIC_API_TIMEOUT", 10000),
+  baseUrl: getEnv("NEXT_PUBLIC_API_URL", "http://localhost:3002"),
+  timeout: getNumberEnv("NEXT_PUBLIC_API_TIMEOUT", 30000),
 };
 
 /**
