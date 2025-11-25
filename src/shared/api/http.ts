@@ -1,3 +1,4 @@
+import { useStore } from "@/stores";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { API_BASE } from "../constants";
 import { parseApiError } from "../lib/errors";
@@ -5,9 +6,10 @@ import { toast } from "../lib/toast";
 
 type Config = InternalAxiosRequestConfig;
 // Create axios instance
+
 export const http = axios.create({
   baseURL: API_BASE,
-  withCredentials: true, // Send cookies (JWT) to backend
+  withCredentials: false, // Send cookies (JWT) to backend
   headers: {
     "Content-Type": "application/json",
   },
@@ -25,6 +27,12 @@ http.interceptors.request.use(
       console.log(
         `[API Request] ${config.method?.toUpperCase()} ${config.url}`,
       );
+    }
+
+    // Get token from store
+    const token = useStore.getState().auth.user?.token;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
 
     // You can add custom headers here if needed

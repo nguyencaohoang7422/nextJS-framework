@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
 import { ReactNode } from "react";
 import { describe, expect, it } from "vitest";
-import { useLogin, useLogout, useMe } from "../useAuth";
+import { useAuth, useLogin, useLogout } from "../useAuth";
 
 // Create wrapper with QueryClient
 const createWrapper = () => {
@@ -72,9 +72,9 @@ describe("useLogout", () => {
   });
 });
 
-describe("useMe", () => {
+describe("useAuth", () => {
   it("should handle unauthenticated state", async () => {
-    const { result } = renderHook(() => useMe(), {
+    const { result } = renderHook(() => useAuth(), {
       wrapper: createWrapper(),
     });
 

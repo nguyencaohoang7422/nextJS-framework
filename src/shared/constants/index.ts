@@ -22,12 +22,12 @@ export const API_CONFIG = {
 
 export const API_ENDPOINTS = {
   auth: {
-    login: "users/login",
-    register: "users/register",
-    logout: "users/logout",
-    me: "users/me",
-    forgotPassword: "users/forgot-password",
-    resetPassword: "users/reset-password",
+    login: `${API_BASE}/User/login`,
+    register: `${API_BASE}/User/register`,
+    logout: `${API_BASE}/User/logout`,
+    me: `${API_BASE}/User/me`,
+    forgotPassword: `${API_BASE}/User/forgot-password`,
+    resetPassword: `${API_BASE}/User/reset-password`,
   },
   users: {
     list: "/api/users",
@@ -124,12 +124,12 @@ export const ROUTES = {
 
 export const QUERY_KEYS = {
   auth: {
-    me: ["auth", "me"] as const,
+    auth: ["auth"] as const,
   },
   users: {
-    all: ["users"] as const,
-    list: (filters?: Record<string, unknown>) =>
-      ["users", "list", filters] as const,
-    detail: (id: string) => ["users", "detail", id] as const,
+    // all: ["users"] as const,
+    // list: (filters?: Record<string, unknown>) =>
+    //   ["users", "list", filters] as const,
+    // detail: (id: string) => ["users", "detail", id] as const,
   },
 } as const;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useLogout, useMe } from "@/features/auth/hooks/useAuth";
+import { useAuth, useLogout } from "@/features/auth/hooks/useAuth";
 import { LoadingMain } from "@/shared/components/Loading";
 import { useLoadingStore } from "@/shared/lib/loading";
 import { toast } from "@/shared/lib/toast";
@@ -29,17 +29,17 @@ export default function DashboardLayout({
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { data: user, isLoading } = useMe();
+  const { data: user, isLoading, isError } = useAuth();
   const logout = useLogout();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const { isMainLoading, mainLoadingMessage } = useLoadingStore();
 
   // Redirect to login if not authenticated
   React.useEffect(() => {
-    if (!isLoading && !user) {
-      router.push("/");
+    if (!isLoading && !user && !isError) {
+      router.push("/login");
     }
-  }, [user, isLoading, router]);
+  }, [user, isLoading, isError, router]);
 
   const handleLogout = async () => {
     try {

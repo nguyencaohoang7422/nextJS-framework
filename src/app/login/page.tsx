@@ -1,11 +1,12 @@
+"use client";
 import { LoginForm } from "@/features/auth/components/LoginForm";
-import { authApi } from "@/shared/api/auth";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import { redirect } from "next/navigation";
 
-export default async function Page() {
+export default function Page() {
+  const { data: user } = useAuth();
   // Check authentication
   try {
-    const { result: user } = await authApi.me();
     if (user) {
       redirect("/dashboard");
     }

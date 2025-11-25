@@ -4,7 +4,6 @@ import type {
   ApiResponse,
   AuthResponse,
   LoginCredentials,
-  MeResponse,
   RegisterCredentials,
   User,
 } from "@/shared/types";
@@ -83,7 +82,7 @@ export const authApi = {
   // -----------------------------------------------------------------
   // Login – always succeed in mock mode, otherwise call the backend
   // -----------------------------------------------------------------
-  login: (payload: LoginCredentials) => {
+  login: async (payload: LoginCredentials) => {
     if (process.env.NEXT_PUBLIC_MOCK === "true") {
       // Simulate a short network delay
       return new Promise<ApiResponse<User>>((resolve) => {
@@ -93,7 +92,7 @@ export const authApi = {
       });
     }
     // Real request
-    return http
+    return await http
       .post<AuthResponse<User>>(API_ENDPOINTS.auth.login, payload)
       .then((r) => r.data);
   },
@@ -105,32 +104,9 @@ export const authApi = {
     if (process.env.NEXT_PUBLIC_MOCK === "true") {
       return Promise.resolve({ success: true, message: "Logged out (mock)" });
     }
-    return http
+    return await http
       .post<ApiResponse<User>>(API_ENDPOINTS.auth.logout)
       .then((r) => r.data);
-  },
-
-  // -----------------------------------------------------------------
-  // Me – returns the mock user when mock mode is on
-  // -----------------------------------------------------------------
-  me: async () => {
-    if (process.env.NEXT_PUBLIC_MOCK === "true") {
-      return new Promise<ApiResponse<User>>((resolve) => {
-        setTimeout(() => {
-          resolve({
-            success: true,
-            result: getMockUser(),
-            message: null,
-            code: 200000,
-          });
-        }, 200);
-      });
-    }
-    return http.get<MeResponse>(API_ENDPOINTS.auth.me).then((r) => ({
-      success: true,
-      result: r.data.user || undefined,
-      message: null,
-    }));
   },
 
   // -----------------------------------------------------------------

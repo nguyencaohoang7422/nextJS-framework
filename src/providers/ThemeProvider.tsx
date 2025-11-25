@@ -43,9 +43,8 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     return DefaultTheme;
   });
 
-  const mapThemeToCssVariables = useCallback((themeConfig: ThemeColors) => {
+  const mapThemeToCssVariables = (themeConfig: ThemeColors) => {
     const root = document.documentElement;
-
     // Map specific keys to CSS variables
     root.style.setProperty("--color-primary", themeConfig.primary);
     root.style.setProperty("--color-secondary", themeConfig.secondary);
@@ -58,11 +57,11 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     root.style.setProperty("--border-color", themeConfig.border);
 
     // You can add more mappings here based on your variables.css
-  }, []);
+  };
 
   useEffect(() => {
     mapThemeToCssVariables(theme);
-  }, [theme, mapThemeToCssVariables]);
+  }, [theme]);
 
   const applyTheme = useCallback((newTheme: Partial<ThemeColors>) => {
     setTheme((prevTheme) => {

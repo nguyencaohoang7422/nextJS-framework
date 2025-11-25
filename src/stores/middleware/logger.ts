@@ -15,6 +15,12 @@ type LoggerImpl = <T>(
 ) => StateCreator<T, [], []>;
 
 const loggerImpl: LoggerImpl = (f, name) => (set, get, store) => {
+  // Disable logging in production or when NODE_ENV is not 'development'
+  if (process.env.NODE_ENV !== "development") {
+    // Directly invoke the original state creator without logging
+    return f(set, get, store);
+  }
+
   const loggedSet: typeof set = (...a) => {
     const prevState = get();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,9 +1,9 @@
 "use client";
 
-import { useMe } from "@/features/auth/hooks/useAuth";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 
 export default function DashboardPage() {
-  const { data: user } = useMe();
+  const { data: user } = useAuth();
 
   const stats = [
     {

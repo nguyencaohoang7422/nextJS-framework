@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
-
 import { authApi } from "@/shared/api/auth";
 import { User } from "@/shared/types";
 import { useStore as useMainStore } from "@/stores";
@@ -22,26 +20,16 @@ export const useAuthStore = create<AuthState>((set) => ({
   clearUser: () => set({ user: null }),
 }));
 
-export function useMe() {
-  const queryClient = useQueryClient();
+export function useAuth() {
+  // const queryClient = useQueryClient();
   const query = useQuery({
     queryKey: ["auth"],
     queryFn: async () => {
-      const res = await authApi.me();
-      return res.result as User;
+      return useAuthStore.getState().user;
     },
+    initialData: useAuthStore.getState().user,
     staleTime: 1000 * 60 * 5,
   });
-
-  useEffect(() => {
-    if (query.data) {
-      // Sync with old store (backward compatibility)
-      useAuthStore.getState().setUser(query.data);
-
-      // Sync with new store
-      useMainStore.getState().auth.setUser(query.data);
-    }
-  }, [query.data]);
 
   return query;
 }
@@ -51,7 +39,14 @@ export function useLogin() {
   return useMutation({
     mutationFn: (payload: { username: string; password: string }) =>
       authApi.login({ username: payload.username, password: payload.password }),
-    onSuccess() {
+    onSuccess(query) {
+      if (query?.result) {
+        // Sync with old store (backward compatibility)
+        useAuthStore.getState().setUser(query?.result);
+
+        // Sync with new store
+        useMainStore.getState().auth.setUser(query?.result);
+      }
       // refetch me to populate user
       queryClient.invalidateQueries({ queryKey: ["auth"] });
     },

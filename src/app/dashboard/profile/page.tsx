@@ -1,11 +1,11 @@
 "use client";
 
-import { useMe } from "@/features/auth/hooks/useAuth";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import { toast } from "@/shared/lib/toast";
 import { useState } from "react";
 
 export default function ProfilePage() {
-  const { data: user } = useMe();
+  const { data: user } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     name: user?.firstname || user?.username || "",
