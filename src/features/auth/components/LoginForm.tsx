@@ -1,13 +1,15 @@
-"use client";
+'use client';
 
-import { LoginFormData, loginSchema } from "@/schemas/auth";
-import { LanguageSwitcher } from "@/shared/components/LanguageSwitcher";
-import { Button, Input } from "@/shared/ui";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Lock, Mail, Sparkles } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { Controller, useForm } from "react-hook-form";
-import { useLogin } from "../hooks/useAuth";
+import { useRouter } from 'next/navigation';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Lock, Mail, Sparkles } from 'lucide-react';
+import { Controller, useForm } from 'react-hook-form';
+
+import { LoginFormData, loginSchema } from '@/schemas/auth';
+import { LanguageSwitcher } from '@/shared/components/LanguageSwitcher';
+import { Button, Input } from '@/shared/ui';
+
+import { useLogin } from '../hooks/useAuth';
 
 export function LoginForm() {
   const login = useLogin();
@@ -20,8 +22,8 @@ export function LoginForm() {
   } = useForm<LoginFormData>({
     resolver: yupResolver(loginSchema),
     defaultValues: {
-      username: "vcvdev-admin",
-      password: "Vcv@1234567",
+      username: 'vcvdev-admin',
+      password: 'Vcv@1234567',
     },
   });
 
@@ -29,13 +31,13 @@ export function LoginForm() {
     try {
       await login
         .mutateAsync({
-          type: "credentials",
+          type: 'credentials',
           username: data.username,
           password: data.password,
         })
         .then((response) => {
           if (response?.success) {
-            router.push("/dashboard");
+            router.push('/dashboard');
           }
         });
     } catch (err) {
@@ -185,7 +187,7 @@ export function LoginForm() {
 
           {/* Footer */}
           <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-            Chưa có tài khoản?{" "}
+            Chưa có tài khoản?{' '}
             <a
               href="#"
               className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
