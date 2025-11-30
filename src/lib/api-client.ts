@@ -136,30 +136,30 @@ class ApiClient {
     return response.data;
   }
 
-  public async post<T>(
+  public async post<TResponse, TData = unknown>(
     url: string,
-    data?: T,
+    data?: TData,
     config?: AxiosRequestConfig,
-  ): Promise<T> {
-    const response = await this.instance.post<T>(url, data, config);
+  ): Promise<TResponse> {
+    const response = await this.instance.post<TResponse>(url, data, config);
     return response.data;
   }
 
-  public async put<T>(
+  public async put<TResponse, TData = unknown>(
     url: string,
-    data?: T,
+    data?: TData,
     config?: AxiosRequestConfig,
-  ): Promise<T> {
-    const response = await this.instance.put<T>(url, data, config);
+  ): Promise<TResponse> {
+    const response = await this.instance.put<TResponse>(url, data, config);
     return response.data;
   }
 
-  public async patch<T>(
+  public async patch<TResponse, TData = unknown>(
     url: string,
-    data?: T,
+    data?: TData,
     config?: AxiosRequestConfig,
-  ): Promise<T> {
-    const response = await this.instance.patch<T>(url, data, config);
+  ): Promise<TResponse> {
+    const response = await this.instance.patch<TResponse>(url, data, config);
     return response.data;
   }
 

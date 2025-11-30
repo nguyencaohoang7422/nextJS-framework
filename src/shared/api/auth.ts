@@ -3,7 +3,6 @@ import { apiClient } from '@/lib/api-client';
 import { API_ENDPOINTS } from '@/shared/constants';
 import type {
   ApiResponse,
-  AuthResponse,
   LoginCredentials,
   RegisterCredentials,
   User,
@@ -92,7 +91,7 @@ export const authApi = {
       });
     }
     // Real request
-    return await apiClient.post<AuthResponse<User>>(
+    return await apiClient.post<ApiResponse<User>, LoginCredentials>(
       API_ENDPOINTS.auth.login,
       payload,
     );
@@ -109,7 +108,7 @@ export const authApi = {
     }
 
     // Real request - explicitly pass token in header
-    return await apiClient.post<AuthResponse<User>>(
+    return await apiClient.post<ApiResponse<User>, Record<string, never>>(
       API_ENDPOINTS.auth.login,
       {},
       {
@@ -145,7 +144,7 @@ export const authApi = {
         }, 300);
       });
     }
-    return apiClient.post<ApiResponse<User>>(
+    return apiClient.post<ApiResponse<User>, RegisterCredentials>(
       API_ENDPOINTS.auth.register,
       payload,
     );

@@ -1,13 +1,7 @@
-// Export Button
-export { Button } from "./Button";
-export type {
-  ButtonHTMLType,
-  ButtonProps,
-  ButtonShape,
-  ButtonSize,
-  ButtonType,
-} from "./Button";
+// Export Button (shadcn/ui)
+export { Button, buttonVariants } from './Button';
+export type { ButtonProps } from './Button';
 
 // Future components will be exported here
-export { Input } from "./Input";
+export { Input } from './Input';
 // export { Select } from './Select';

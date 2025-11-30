@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Lock, Mail, Sparkles } from 'lucide-react';
+import { Loader2, Lock, Mail, Sparkles } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { LoginFormData, loginSchema } from '@/schemas/auth';
@@ -93,17 +93,17 @@ export function LoginForm() {
                     >
                       Email
                     </label>
-                    <div className="group">
+                    <div className="group relative">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground z-10">
+                        <Mail className="w-4 h-4" />
+                      </span>
                       <Input
                         {...field}
                         id="email-address"
                         type="text"
                         autoComplete="off"
                         placeholder="alice@example.com"
-                        error={!!errors.username}
-                        block
-                        icon={<Mail className="w-4 h-4" />}
-                        className="transition-all duration-200 focus:scale-[1.02]"
+                        className={`pl-10 w-full transition-all duration-200 focus:scale-[1.02] ${errors.username ? 'border-destructive' : ''}`}
                       />
                     </div>
                     {errors.username && (
@@ -127,17 +127,17 @@ export function LoginForm() {
                     >
                       Mật khẩu
                     </label>
-                    <div className="group">
+                    <div className="group relative">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground z-10">
+                        <Lock className="w-4 h-4" />
+                      </span>
                       <Input
                         {...field}
                         id="password"
                         type="password"
                         autoComplete="current-password"
                         placeholder="••••••••"
-                        error={!!errors.password}
-                        block
-                        icon={<Lock className="w-4 h-4" />}
-                        className="transition-all duration-200 focus:scale-[1.02]"
+                        className={`pl-10 w-full transition-all duration-200 focus:scale-[1.02] ${errors.password ? 'border-destructive' : ''}`}
                       />
                     </div>
                     {errors.password && (
@@ -174,13 +174,14 @@ export function LoginForm() {
 
             {/* Submit Button */}
             <Button
-              type="primary"
-              htmlType="submit"
-              block
-              loading={isSubmitting || login.isPending}
-              size="large"
-              className="bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transform transition-all duration-200 hover:scale-[1.02]"
+              type="submit"
+              disabled={isSubmitting || login.isPending}
+              size="lg"
+              className="w-full bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transform transition-all duration-200 hover:scale-[1.02]"
             >
+              {(isSubmitting || login.isPending) && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
               Đăng nhập
             </Button>
           </form>

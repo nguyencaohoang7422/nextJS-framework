@@ -1,132 +1,57 @@
-"use client";
+import * as React from 'react';
+import { Slot } from '@radix-ui/react-slot';
+import { cva, type VariantProps } from 'class-variance-authority';
 
-import { Button as ShadcnButton } from "@/components/ui/button";
-import { clsx } from "clsx";
-import { Loader2 } from "lucide-react";
-import React, { forwardRef, useEffect, useState } from "react";
-import type { ButtonProps } from "./Button.types";
+import { cn } from '@/lib/utils';
 
-export const Button = forwardRef<
-  HTMLButtonElement | HTMLAnchorElement | null,
-  ButtonProps
->(
-  (
-    {
-      type = "default",
-      size = "default",
-      shape = "default",
-      htmlType = "button",
-      disabled = false,
-      loading = false,
-      danger = false,
-      ghost = false,
-      block = false,
-      icon,
-      children,
-      className,
-      onClick,
-      href,
-      target,
-      ...rest
+const buttonVariants = cva(
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
+  {
+    variants: {
+      variant: {
+        default:
+          'bg-primary text-primary-foreground shadow hover:bg-primary/90',
+        destructive:
+          'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
+        outline:
+          'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
+        secondary:
+          'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
+        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        link: 'text-primary underline-offset-4 hover:underline',
+      },
+      size: {
+        default: 'h-9 px-4 py-2',
+        sm: 'h-8 rounded-md px-3 text-xs',
+        lg: 'h-10 rounded-md px-8',
+        icon: 'h-9 w-9',
+      },
     },
-    ref,
-  ) => {
-    const [innerLoading, setInnerLoading] = useState<boolean>(false);
-
-    // Handle loading delay
-    useEffect(() => {
-      if (typeof loading === "object" && loading?.delay) {
-        const timer = setTimeout(() => {
-          setInnerLoading(true);
-        }, loading?.delay);
-        return () => clearTimeout(timer);
-      }
-    }, [loading]);
-
-    const isLoading = typeof loading === "object" ? innerLoading : loading;
-
-    // Map custom button type to shadcn variant
-    const getVariant = () => {
-      if (danger) return "destructive";
-      if (ghost) return "ghost";
-      if (type === "primary") return "default";
-      if (type === "dashed" || type === "default") return "outline";
-      if (type === "text") return "ghost";
-      if (type === "link") return "link";
-      return "default";
-    };
-
-    // Map custom size to shadcn size
-    const getShadcnSize = () => {
-      if (size === "small") return "sm";
-      if (size === "large") return "lg";
-      return "default";
-    };
-
-    // Additional classes for custom features
-    const additionalClasses = clsx({
-      "w-full": block,
-      "rounded-full": shape === "circle" || shape === "round",
-      "aspect-square p-0": shape === "circle",
-    });
-
-    const handleClick = (
-      e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>,
-    ) => {
-      if (disabled || isLoading) {
-        e.preventDefault();
-        return;
-      }
-      onClick?.(e as React.MouseEvent<HTMLButtonElement>);
-    };
-
-    const iconNode = isLoading ? (
-      <Loader2 className="h-4 w-4 animate-spin" />
-    ) : icon ? (
-      <span className="inline-flex items-center">{icon}</span>
-    ) : null;
-
-    const content = (
-      <>
-        {iconNode}
-        {children && <span>{children}</span>}
-      </>
-    );
-
-    // Render as anchor if href is provided
-    if (href && !disabled) {
-      return (
-        <a
-          href={href}
-          target={target}
-          className={clsx(
-            "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-            additionalClasses,
-            className,
-          )}
-          onClick={handleClick}
-          {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
-        >
-          {content}
-        </a>
-      );
-    }
-
-    return (
-      <ShadcnButton
-        ref={ref as React.Ref<HTMLButtonElement>}
-        type={htmlType}
-        variant={getVariant()}
-        size={getShadcnSize()}
-        disabled={disabled || isLoading}
-        className={clsx(additionalClasses, className)}
-        onClick={handleClick}
-        {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}
-      >
-        {content}
-      </ShadcnButton>
-    );
+    defaultVariants: {
+      variant: 'default',
+      size: 'default',
+    },
   },
 );
 
-Button.displayName = "Button";
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : 'button';
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    );
+  },
+);
+Button.displayName = 'Button';
+
+export { Button, buttonVariants };
