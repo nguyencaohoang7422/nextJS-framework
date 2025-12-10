@@ -1,15 +1,17 @@
-"use client";
-import { useAuth } from "@/stores";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+'use client';
+
+import { useEffect } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
+import { useAuth } from '@/stores';
 
 export default function NotFound() {
   const { user } = useAuth();
   const router = useRouter();
   useEffect(() => {
     if (!user) {
-      router.push("/login");
+      router.push('/signin');
     }
   }, [user, router]);
   // If user is not logged in, don't render the 404 page (will redirect)

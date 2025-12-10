@@ -1,6 +1,5 @@
-"use client";
+'use client';
 
-import { DefaultTheme, ThemeColors } from "@/config/theme";
 import {
   createContext,
   ReactNode,
@@ -9,12 +8,14 @@ import {
   useEffect,
   useMemo,
   useState,
-} from "react";
+} from 'react';
+
+type Theme = 'light' | 'dark';
 
 interface ThemeContextType {
-  theme: ThemeColors;
-  applyTheme: (theme: Partial<ThemeColors>) => void;
-  resetTheme: () => void;
+  theme: Theme;
+  toggleTheme: () => void;
+  setTheme: (theme: Theme) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -22,67 +23,62 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const useTheme = () => {
   const context = useContext(ThemeContext);
   if (!context) {
-    throw new Error("useTheme must be used within a ThemeProvider");
+    throw new Error('useTheme must be used within a ThemeProvider');
   }
   return context;
 };
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<ThemeColors>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const savedTheme = localStorage.getItem("user_theme");
-        if (savedTheme) {
-          const parsedTheme = JSON.parse(savedTheme);
-          return { ...DefaultTheme, ...parsedTheme };
-        }
-      } catch (e) {
-        console.error("Failed to parse theme from local storage", e);
+  const [theme, setThemeState] = useState<Theme>(() => {
+    if (typeof window !== 'undefined') {
+      // Check localStorage first
+      const savedTheme = localStorage.getItem('theme') as Theme | null;
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        return savedTheme;
+      }
+
+      // Check system preference
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
       }
     }
-    return DefaultTheme;
+    return 'dark';
   });
 
-  const mapThemeToCssVariables = (themeConfig: ThemeColors) => {
-    const root = document.documentElement;
-    // Map specific keys to CSS variables
-    root.style.setProperty("--color-primary", themeConfig.primary);
-    root.style.setProperty("--color-secondary", themeConfig.secondary);
-    root.style.setProperty("--color-success", themeConfig.success);
-    root.style.setProperty("--color-warning", themeConfig.warning);
-    root.style.setProperty("--color-error", themeConfig.error);
-
-    // Map others if needed or generic mapping
-    root.style.setProperty("--bg-primary", themeConfig.background);
-    root.style.setProperty("--border-color", themeConfig.border);
-
-    // You can add more mappings here based on your variables.css
-  };
-
+  // Apply theme to DOM
   useEffect(() => {
-    mapThemeToCssVariables(theme);
+    const root = document.documentElement;
+
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    if (theme === 'light') {
+      root.classList.add('light');
+    } else {
+      root.classList.remove('light');
+    }
+
+    // Save to localStorage
+    localStorage.setItem('theme', theme);
   }, [theme]);
 
-  const applyTheme = useCallback((newTheme: Partial<ThemeColors>) => {
-    setTheme((prevTheme) => {
-      const mergedTheme = { ...prevTheme, ...newTheme } as ThemeColors;
-      localStorage.setItem("user_theme", JSON.stringify(mergedTheme));
-      return mergedTheme;
-    });
+  const setTheme = useCallback((newTheme: Theme) => {
+    setThemeState(newTheme);
   }, []);
 
-  const resetTheme = useCallback(() => {
-    setTheme(DefaultTheme);
-    localStorage.removeItem("user_theme");
+  const toggleTheme = useCallback(() => {
+    setThemeState((prev) => (prev === 'light' ? 'dark' : 'light'));
   }, []);
 
   const value = useMemo(
     () => ({
       theme,
-      applyTheme,
-      resetTheme,
+      setTheme,
+      toggleTheme,
     }),
-    [theme, applyTheme, resetTheme],
+    [theme, setTheme, toggleTheme],
   );
 
   return (

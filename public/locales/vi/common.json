@@ -1,6 +1,19 @@
 {
-  "welcome": "Chào mừng đến với My Framework",
-  "language": "Ngôn ngữ",
-  "english": "Tiếng Anh",
-  "vietnamese": "Tiếng Việt"
+  "auth": {
+    "welcome": "Chào mừng đến với My Framework",
+    "language": "Ngôn ngữ",
+    "english": "Tiếng Anh",
+    "vietnamese": "Tiếng Việt",
+    "signInWithGoogle": "Đăng nhập với Google",
+    "signInWithX": "Đăng nhập với X",
+    "keepMeLoggedIn": "Giữ tôi đăng nhập",
+    "forgotPassword": "Quên mật khẩu?",
+    "signIn": "Đăng nhập",
+    "signUp": "Đăng ký",
+    "email": "Email",
+    "emailPlaceholder": "example@gmail.com",
+    "password": "Mật khẩu",
+    "or": "Hoặc",
+    "signInDescription": "Nhập email và mật khẩu của bạn để đăng nhập!"
+  }
 }

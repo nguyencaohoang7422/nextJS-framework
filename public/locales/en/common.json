@@ -1,6 +1,19 @@
 {
+ "auth": {
   "welcome": "Welcome to My Framework",
   "language": "Language",
   "english": "English",
-  "vietnamese": "Vietnamese"
+  "vietnamese": "Vietnamese",
+  "signInWithGoogle": "Sign in with Google",
+  "signInWithX": "Sign in with X",
+  "keepMeLoggedIn": "Keep me logged in",
+  "forgotPassword": "Forgot password?",
+  "signIn": "Sign in",
+  "signUp": "Sign Up",
+  "email": "Email",
+  "emailPlaceholder": "example@gmail.com",
+  "password": "Password",
+  "or": "Or",
+  "signInDescription": "Enter your email and password to sign in!"
+ }
 }

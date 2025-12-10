@@ -1,10 +1,14 @@
-"use client";
-import { authConfig } from "@/config/env";
-import { useLogin } from "@/features/auth/hooks/useAuth";
-import { ROUTES } from "@/shared/constants";
-import { useAuth } from "@/stores";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+import { authConfig } from '@/config/env';
+import { useLogin } from '@/features/auth/hooks/useAuth';
+import { navigator } from '@/lib/navigation';
+import { ROUTES } from '@/shared/constants';
+import { AUTH_SIGNIN_METHOD } from '@/shared/constants/constants';
+import { useAuth } from '@/stores';
 
 export default function AuthRedirectPage({
   children,
@@ -19,10 +23,10 @@ export default function AuthRedirectPage({
   const hasAttemptedLogin = useRef(false);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === 'undefined') return;
 
     if (user) {
-      router.push(ROUTES.DASHBOARD);
+      navigator.push(ROUTES.DASHBOARD);
       setIsChecking(false);
       return;
     }
@@ -32,9 +36,9 @@ export default function AuthRedirectPage({
     }
 
     const getTokenInCookie = () => {
-      const cookies = document.cookie.split(";").reduce(
+      const cookies = document.cookie.split(';').reduce(
         (acc: Record<string, string>, cookie: string) => {
-          const [key, value] = cookie.trim().split("=");
+          const [key, value] = cookie.trim().split('=');
           if (key && value) {
             acc[key] = value;
           }
@@ -51,14 +55,14 @@ export default function AuthRedirectPage({
         if (token) {
           hasAttemptedLogin.current = true;
           await login.mutateAsync({
-            type: "token",
+            type: AUTH_SIGNIN_METHOD.TOKEN,
             token: token,
           });
         } else {
-          router.push(ROUTES.LOGIN);
+          router.push(ROUTES.SIGN_IN);
         }
       } catch (e) {
-        router.push(ROUTES.LOGIN);
+        router.push(ROUTES.SIGN_IN);
       } finally {
         setIsChecking(false);
       }

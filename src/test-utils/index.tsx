@@ -1,7 +1,9 @@
-import { ThemeProvider } from "@/providers/ThemeProvider";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, RenderOptions } from "@testing-library/react";
-import { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { render, RenderOptions } from '@testing-library/react';
+
+import { ThemeConfigProvider } from '@/providers/ThemeConfigProvider';
+import { ThemeProvider } from '@/providers/ThemeProvider';
 
 // Create a custom render function that includes all providers
 const AllTheProviders = ({ children }: { children: ReactNode }) => {
@@ -18,38 +20,40 @@ const AllTheProviders = ({ children }: { children: ReactNode }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider>{children}</ThemeProvider>
+      <ThemeProvider>
+        <ThemeConfigProvider>{children}</ThemeConfigProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 };
 
 const customRender = (
   ui: ReactElement,
-  options?: Omit<RenderOptions, "wrapper">,
+  options?: Omit<RenderOptions, 'wrapper'>,
 ) => render(ui, { wrapper: AllTheProviders, ...options });
 
 // Re-export everything from testing library
-export * from "@testing-library/react";
+export * from '@testing-library/react';
 export { customRender as render };
 
 // Mock data helpers
 export const mockUser = {
-  id: "1",
-  username: "alice@example.com",
-  firstname: "Alice",
-  lastname: "Johnson",
-  email: "alice@example.com",
+  id: '1',
+  username: 'alice@example.com',
+  firstname: 'Alice',
+  lastname: 'Johnson',
+  email: 'alice@example.com',
   uiSettings: {
     theme: {
-      primaryColor: "#3b82f6",
-      secondaryColor: "#8b5cf6",
+      primaryColor: '#3b82f6',
+      secondaryColor: '#8b5cf6',
     },
   },
 };
 
 export const mockLoginCredentials = {
-  username: "alice@example.com",
-  password: "password123",
+  username: 'alice@example.com',
+  password: 'password123',
 };
 
 // Wait for async updates

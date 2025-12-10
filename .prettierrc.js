@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
   semi: true,
   trailingComma: 'all',
   singleQuote: true,
@@ -18,3 +18,5 @@ module.exports = {
   importOrderTypeScriptVersion: '5.0.0',
   importOrderCaseSensitive: false,
 };
+
+export default config;

@@ -1,8 +1,11 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
-import { useAuth } from "../hooks/useAuth";
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+import { ROUTES } from '@/shared/constants';
+
+import { useAuth } from '../hooks/useAuth';
 
 export function ProtectedClient({ children }: { children: React.ReactNode }) {
   const { data: user, isLoading, isError } = useAuth();
@@ -11,7 +14,7 @@ export function ProtectedClient({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Only redirect if we are done loading, there is no error, and no user
     if (!isLoading && !user && !isError) {
-      router.replace("/login");
+      router.replace(ROUTES.SIGN_IN);
     }
   }, [isLoading, user, isError, router]);
 

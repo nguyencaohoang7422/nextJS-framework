@@ -1,36 +1,47 @@
-"use client";
+'use client';
 
-import { useTrans } from "@/hooks/useTrans";
-import { memo } from "react";
+import { memo, useState } from 'react';
+
+import { useTrans } from '@/hooks/useTrans';
+import Button from '@/shared/ui/Button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from '@/shared/ui/Dropdown';
 
 export const LoginLanguageSwitcher = memo(() => {
   const { changeLanguage, currentLanguage } = useTrans();
 
+  const [language, setLanguage] = useState<string>(currentLanguage);
+  const selectedLanguage: string =
+    {
+      vi: 'Tiếng Việt',
+      en: 'English',
+    }[language] || 'English';
+
+  const handleChangeLanguage = (lang: string) => {
+    setLanguage(lang);
+    changeLanguage(lang);
+  };
   return (
-    <div className="absolute top-4 right-4 flex gap-2">
-      <button
-        onClick={() => changeLanguage("en")}
-        className={`text-sm font-medium transition-colors ${
-          currentLanguage === "en"
-            ? "text-blue-600 border-b-2 border-blue-600"
-            : "text-gray-500 hover:text-gray-700"
-        }`}
-      >
-        EN
-      </button>
-      <span className="text-gray-300">|</span>
-      <button
-        onClick={() => changeLanguage("vi")}
-        className={`text-sm font-medium transition-colors ${
-          currentLanguage === "vi"
-            ? "text-blue-600 border-b-2 border-blue-600"
-            : "text-gray-500 hover:text-gray-700"
-        }`}
-      >
-        VI
-      </button>
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">{selectedLanguage}</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="bg-white/50">
+        <DropdownMenuRadioGroup
+          value={language}
+          onValueChange={handleChangeLanguage}
+        >
+          <DropdownMenuRadioItem value="vi">Tiếng Việt</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="en">English</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 });
 
-LoginLanguageSwitcher.displayName = "LoginLanguageSwitcher";
+LoginLanguageSwitcher.displayName = 'LoginLanguageSwitcher';

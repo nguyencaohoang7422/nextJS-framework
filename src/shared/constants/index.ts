@@ -1,4 +1,4 @@
-import { UserRole } from "../types";
+import { UserRole } from '../types';
 
 // ============================================
 // API Configuration
@@ -30,9 +30,9 @@ export const API_ENDPOINTS = {
     resetPassword: `${API_BASE}/User/reset-password`,
   },
   users: {
-    list: "/api/users",
+    list: '/api/users',
     detail: (id: string) => `/api/users/${id}`,
-    create: "/api/users",
+    create: '/api/users',
     update: (id: string) => `/api/users/${id}`,
     delete: (id: string) => `/api/users/${id}`,
   },
@@ -54,15 +54,15 @@ export const PAGINATION = {
 // ============================================
 
 export const ROLE_LABELS: Record<UserRole, string> = {
-  [UserRole.ADMIN]: "Administrator",
-  [UserRole.MANAGER]: "Manager",
-  [UserRole.USER]: "User",
+  [UserRole.ADMIN]: 'Administrator',
+  [UserRole.MANAGER]: 'Manager',
+  [UserRole.USER]: 'User',
 };
 
 export const ROLE_COLORS: Record<UserRole, string> = {
-  [UserRole.ADMIN]: "red",
-  [UserRole.MANAGER]: "blue",
-  [UserRole.USER]: "green",
+  [UserRole.ADMIN]: 'red',
+  [UserRole.MANAGER]: 'blue',
+  [UserRole.USER]: 'green',
 };
 
 // ============================================
@@ -72,22 +72,22 @@ export const ROLE_COLORS: Record<UserRole, string> = {
 export const VALIDATION = {
   email: {
     pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-    message: "Invalid email format",
+    message: 'Invalid email format',
   },
   password: {
     minLength: 8,
     pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
     message:
-      "Password must be at least 8 characters with uppercase, lowercase, and number",
+      'Password must be at least 8 characters with uppercase, lowercase, and number',
   },
   name: {
     minLength: 2,
     maxLength: 50,
-    message: "Name must be between 2 and 50 characters",
+    message: 'Name must be between 2 and 50 characters',
   },
   phone: {
     pattern: /^[0-9]{10,11}$/,
-    message: "Phone number must be 10-11 digits",
+    message: 'Phone number must be 10-11 digits',
   },
 } as const;
 
@@ -96,11 +96,11 @@ export const VALIDATION = {
 // ============================================
 
 export const STORAGE_KEYS = {
-  TOKEN: "app_token",
-  USER: "app_user",
-  THEME: "app_theme",
-  LANGUAGE: "app_language",
-  SIDEBAR_OPEN: "app_sidebar_open",
+  TOKEN: 'app_token',
+  USER: 'app_user',
+  THEME: 'app_theme',
+  LANGUAGE: 'app_language',
+  SIDEBAR_OPEN: 'app_sidebar_open',
 } as const;
 
 // ============================================
@@ -108,14 +108,14 @@ export const STORAGE_KEYS = {
 // ============================================
 
 export const ROUTES = {
-  HOME: "/",
-  LOGIN: "/login",
-  REGISTER: "/register",
-  FORGOT_PASSWORD: "/forgot-password",
-  DASHBOARD: "/dashboard",
-  USERS: "/dashboard/users",
+  HOME: '/',
+  SIGN_IN: '/signin',
+  REGISTER: '/register',
+  FORGOT_PASSWORD: '/forgot-password',
+  DASHBOARD: '/dashboard',
+  USERS: '/dashboard/users',
   USER_DETAIL: (id: string) => `/dashboard/users/${id}`,
-  PROFILE: "/dashboard/profile",
+  PROFILE: '/dashboard/profile',
 } as const;
 
 // ============================================
@@ -124,7 +124,7 @@ export const ROUTES = {
 
 export const QUERY_KEYS = {
   auth: {
-    auth: ["auth"] as const,
+    auth: ['auth'] as const,
   },
   users: {
     // all: ["users"] as const,

@@ -1,0 +1,165 @@
+/**
+ * Styles for ThemeExample component
+ * Demonstrating CSS Dark Theme variables usage
+ */
+
+.theme-example {
+  padding: var(--spacing-xl);
+  min-height: 100vh;
+  background: var(--color-bg-secondary);
+}
+
+.theme-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.theme-title {
+  color: var(--color-text-primary);
+  font-size: 2rem;
+  margin-bottom: var(--spacing-md);
+  font-weight: 600;
+}
+
+.theme-description {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xl);
+  line-height: 1.6;
+}
+
+/* Color Boxes */
+.theme-colors {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+}
+
+.color-box {
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-base);
+  text-align: center;
+  border: 1px solid var(--color-border);
+  transition: transform 0.2s;
+}
+
+.color-box:hover {
+  transform: translateY(-2px);
+}
+
+.color-box span {
+  color: var(--color-text-primary);
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.bg-primary {
+  background: var(--color-bg-primary);
+}
+
+.bg-secondary {
+  background: var(--color-bg-secondary);
+}
+
+.bg-tertiary {
+  background: var(--color-bg-tertiary);
+}
+
+/* Status Items */
+.theme-status {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  flex-wrap: wrap;
+}
+
+.status-item {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-base);
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.status-success {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  border: 1px solid var(--color-success);
+}
+
+.status-error {
+  background: var(--color-error-bg);
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
+}
+
+.status-warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+  border: 1px solid var(--color-warning);
+}
+
+.status-info {
+  background: var(--color-info-bg);
+  color: var(--color-info);
+  border: 1px solid var(--color-info);
+}
+
+/* Input Group */
+.theme-input-group {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.theme-input {
+  flex: 1;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--input-text);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-base);
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.theme-input::placeholder {
+  color: var(--input-placeholder);
+}
+
+.theme-input:focus {
+  outline: none;
+  border-color: var(--input-border-focus);
+  box-shadow: 0 0 0 3px var(--input-border-focus / 0.1);
+}
+
+.theme-button {
+  background: var(--button-bg);
+  color: var(--button-text);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: none;
+  border-radius: var(--radius-base);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.theme-button:hover {
+  background: var(--button-bg-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.theme-button:active {
+  transform: translateY(0);
+}
+
+/**
+ * Lưu ý:
+ * - Tất cả màu sắc tự động thay đổi khi toggle dark mode
+ * - Không cần viết media queries hoặc .dark selectors
+ * - CSS variables được quản lý tập trung trong variables.css
+ */

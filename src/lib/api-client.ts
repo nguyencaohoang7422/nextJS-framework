@@ -57,12 +57,9 @@ class ApiClient {
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
         }
-
+        const randomUUID = self.crypto.randomUUID();
         // Add Request ID for tracking
-        config.headers['X-Request-ID'] = Math.random()
-          .toString(36)
-          .substring(2, 9);
-
+        config.headers['X-Request-ID'] = randomUUID;
         return config;
       },
       (error) => {

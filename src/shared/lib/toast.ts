@@ -1,6 +1,6 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
-export type ToastType = "success" | "error" | "warning" | "info";
+export type ToastType = 'success' | 'error' | 'warning' | 'info';
 
 export interface Toast {
   id: string;
@@ -11,7 +11,7 @@ export interface Toast {
 
 interface ToastStore {
   toasts: Toast[];
-  addToast: (toast: Omit<Toast, "id">) => void;
+  addToast: (toast: Omit<Toast, 'id'>) => void;
   removeToast: (id: string) => void;
   clearAll: () => void;
 }
@@ -20,7 +20,7 @@ export const useToastStore = create<ToastStore>((set) => ({
   toasts: [],
 
   addToast: (toast) => {
-    const id = Math.random().toString(36).substring(2, 9);
+    const id = self.crypto.randomUUID();
     const newToast: Toast = { ...toast, id };
 
     set((state) => ({
@@ -49,14 +49,14 @@ export const useToastStore = create<ToastStore>((set) => ({
 // Helper functions for easier usage
 export const toast = {
   success: (message: string, duration?: number) =>
-    useToastStore.getState().addToast({ type: "success", message, duration }),
+    useToastStore.getState().addToast({ type: 'success', message, duration }),
 
   error: (message: string, duration?: number) =>
-    useToastStore.getState().addToast({ type: "error", message, duration }),
+    useToastStore.getState().addToast({ type: 'error', message, duration }),
 
   warning: (message: string, duration?: number) =>
-    useToastStore.getState().addToast({ type: "warning", message, duration }),
+    useToastStore.getState().addToast({ type: 'warning', message, duration }),
 
   info: (message: string, duration?: number) =>
-    useToastStore.getState().addToast({ type: "info", message, duration }),
+    useToastStore.getState().addToast({ type: 'info', message, duration }),
 };
