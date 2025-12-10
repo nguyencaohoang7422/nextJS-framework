@@ -3,12 +3,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { LogOut } from 'lucide-react';
 
 import { ThemeToggleButton } from '@/features/auth/components/ThemeToggleButton';
 import { useLogout } from '@/features/auth/hooks/useAuth';
 import { useSidebar } from '@/providers/SidebarProvider';
-import { Button } from '@/shared/ui';
 
 import UserDropdown from './UserDropdown';
 
@@ -171,9 +169,7 @@ const AppHeader: React.FC = () => {
             {/* <!-- Dark Mode Toggler --> */}
             <ThemeToggleButton />
             {/* <!-- Dark Mode Toggler --> */}
-            <Button onClick={() => logout.mutate()} variant="ghost" size="icon">
-              <LogOut />
-            </Button>
+
             {/* <NotificationDropdown />  */}
             {/* <!-- Notification Menu Area --> */}
           </div>

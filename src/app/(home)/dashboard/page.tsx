@@ -63,7 +63,6 @@ export default function DashboardPage() {
       time: '3 hours ago',
     },
   ];
-
   return (
     <>
       <section aria-labelledby="welcome-heading" className="card">

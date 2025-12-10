@@ -1,9 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import { ViewVerticalIcon } from '@radix-ui/react-icons';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
+import { ViewIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -296,7 +296,7 @@ const SidebarTrigger = React.forwardRef<
       }}
       {...props}
     >
-      <ViewVerticalIcon />
+      <ViewIcon />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );

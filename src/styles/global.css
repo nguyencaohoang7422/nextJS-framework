@@ -13,7 +13,7 @@
 @import "./components/modal.css";
 @import "./components/loading.css";
 @import "./components/dashboard.css";
-
+@import "./components/sidebar.css";
 /* 
 @theme{
     --primary-color: #3b82f6;
@@ -80,6 +80,22 @@
 
   --color-sidebar-ring: var(--sidebar-ring);
 }
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  body {
+    @apply relative font-normal font-outfit z-1 bg-gray-50;
+  }
+}
 
 /* @layer base {
   * {
@@ -89,3 +105,4 @@
     @apply bg-background text-foreground;
   }
 } */
+ 
