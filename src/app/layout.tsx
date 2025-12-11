@@ -1,3 +1,5 @@
+import { Outfit } from 'next/font/google';
+
 import {
   I18nProvider,
   NavigationProvider,
@@ -18,14 +20,17 @@ import { ThemeProvider } from '@/shared/ui/ThemeProvider';
 import AuthRedirectPage from './(auth)/page';
 
 export const metadata: Metadata = {
-  title: 'My Framework - ADMIN PAGE Management',
+  title: 'NEXTJS',
   description:
     'A modern Next.js framework with authentication and user management',
 };
+const outfit = Outfit({
+  subsets: ['latin'],
+});
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+      <body className={`${outfit.className} select-none`}>
         <ReactQueryProvider>
           <NavigationProvider>
             <ThemeConfigProvider>

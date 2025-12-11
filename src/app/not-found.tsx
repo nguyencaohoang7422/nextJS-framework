@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+import { ROUTES } from '@/shared/constants';
 import { useAuth } from '@/stores';
 
 export default function NotFound() {
@@ -11,7 +12,7 @@ export default function NotFound() {
   const router = useRouter();
   useEffect(() => {
     if (!user) {
-      router.push('/signin');
+      router.push(ROUTES.SIGN_IN);
     }
   }, [user, router]);
   // If user is not logged in, don't render the 404 page (will redirect)
@@ -23,7 +24,7 @@ export default function NotFound() {
       <div className="text-center">
         <h1 className="text-4xl font-bold mb-4">404 - Page Not Found</h1>
         <p className="mb-4">The page you are looking for does not exist.</p>
-        <Link href="/dashboard" className="text-blue-600 hover:underline">
+        <Link href={ROUTES.DASHBOARD} className="text-blue-600 hover:underline">
           Go to Dashboard
         </Link>
       </div>

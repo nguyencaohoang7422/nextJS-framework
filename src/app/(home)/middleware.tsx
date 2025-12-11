@@ -1,5 +1,12 @@
-import { useSidebar } from '@/providers/SidebarProvider';
+import type { Metadata } from 'next';
 
+import { useSidebar } from '@/providers/SidebarProvider';
+import { useUIStore } from '@/stores/useUIStore';
+
+export const metadata: Metadata = {
+  title: 'Dashboard',
+  description: 'Dashboard page',
+};
 export default function HomeMiddleware({
   children,
   header,
@@ -7,12 +14,12 @@ export default function HomeMiddleware({
   children: React.ReactNode;
   header: React.ReactNode;
 }) {
-  const { isExpanded, isHovered, isMobileOpen } = useSidebar();
-
+  const { isHovered, isMobileOpen } = useSidebar();
+  const { sidebarOpen } = useUIStore();
   // Dynamic class for main content margin based on sidebar state
   const mainContentMargin = isMobileOpen
     ? 'ml-0'
-    : isExpanded || isHovered
+    : sidebarOpen || isHovered
       ? 'lg:ml-[290px]'
       : 'lg:ml-[90px]';
 

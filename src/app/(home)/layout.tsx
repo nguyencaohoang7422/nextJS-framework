@@ -2,6 +2,7 @@
 
 // import Backdrop from "@/layout/Backdrop";
 import React from 'react';
+import { type Metadata } from 'next';
 
 import Backdrop from '@/features/header/components/Backdrop';
 import { SidebarProvider } from '@/providers/SidebarProvider';

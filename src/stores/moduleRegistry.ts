@@ -1,5 +1,6 @@
-import { StateCreator } from "zustand";
-import { ModuleRegistry, ModuleSlice, StoreState } from "./types";
+import { StateCreator } from 'zustand';
+
+import { ModuleRegistry, ModuleSlice, StoreState } from './types';
 
 /**
  * Module Registry Slice
@@ -91,7 +92,7 @@ export const createModuleRegistry: StateCreator<
         }));
       } catch (error) {
         const errorMessage =
-          error instanceof Error ? error.message : "Unknown error";
+          error instanceof Error ? error.message : 'Unknown error';
 
         // Set error state
         set((state) => ({

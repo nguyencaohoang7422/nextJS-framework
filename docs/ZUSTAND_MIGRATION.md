@@ -5,6 +5,7 @@
 ### Tổng Quan
 
 Dự án đã migrate từ:
+
 - ❌ Multiple isolated stores (`useUIStore`, `useAuthStore`)
 - ✅ Single unified store với modular slices
 
@@ -21,21 +22,29 @@ Dự án đã migrate từ:
 ### 1. Update Imports
 
 #### Old Code
+
 ```typescript
-import { useUIStore } from '@/stores/useUIStore';
 import { useAuthStore } from '@/features/auth/hooks/useAuth';
+import { useUIStore } from '@/stores/useUIStore';
 ```
 
 #### New Code
+
 ```typescript
-import { useStore, useUI, useAuth } from '@/stores';
 // or
-import { selectUser, selectSidebarOpen } from '@/stores';
+import {
+  selectSidebarOpen,
+  selectUser,
+  useAuth,
+  useStore,
+  useUI,
+} from '@/stores';
 ```
 
 ### 2. Update State Access
 
 #### Old: useUIStore
+
 ```typescript
 // ❌ Old
 const sidebarOpen = useUIStore((state) => state.sidebarOpen);
@@ -43,6 +52,7 @@ const toggleSidebar = useUIStore((state) => state.toggleSidebar);
 ```
 
 #### New: useUI or useStore
+
 ```typescript
 // ✅ New - Option 1: Convenience hook
 const { sidebarOpen, toggleSidebar } = useUI();
@@ -53,6 +63,7 @@ const toggleSidebar = useStore((state) => state.ui.toggleSidebar);
 ```
 
 #### Old: useAuthStore
+
 ```typescript
 // ❌ Old
 const user = useAuthStore((state) => state.user);
@@ -60,6 +71,7 @@ const setUser = useAuthStore((state) => state.setUser);
 ```
 
 #### New: useAuth or useStore
+
 ```typescript
 // ✅ New - Option 1: Convenience hook
 const { user, setUser } = useAuth();
@@ -74,6 +86,7 @@ const setUser = useStore((state) => state.auth.setUser);
 #### Example: Sidebar Component
 
 **Before:**
+
 ```typescript
 import { useUIStore } from '@/stores/useUIStore';
 
@@ -81,7 +94,7 @@ export function Sidebar() {
   const sidebarOpen = useUIStore((state) => state.sidebarOpen);
   const toggleSidebar = useUIStore((state) => state.toggleSidebar);
   const menuItems = useUIStore((state) => state.menuItems);
-  
+
   return (
     <aside className={sidebarOpen ? 'open' : 'closed'}>
       <button onClick={toggleSidebar}>Toggle</button>
@@ -92,12 +105,13 @@ export function Sidebar() {
 ```
 
 **After:**
+
 ```typescript
 import { useUI } from '@/stores';
 
 export function Sidebar() {
   const { sidebarOpen, toggleSidebar, menuItems } = useUI();
-  
+
   return (
     <aside className={sidebarOpen ? 'open' : 'closed'}>
       <button onClick={toggleSidebar}>Toggle</button>
@@ -110,13 +124,14 @@ export function Sidebar() {
 #### Example: Auth Component
 
 **Before:**
+
 ```typescript
 import { useAuthStore } from '@/features/auth/hooks/useAuth';
 
 export function UserProfile() {
   const user = useAuthStore((state) => state.user);
   const clearUser = useAuthStore((state) => state.clearUser);
-  
+
   return (
     <div>
       <p>{user?.firstname}</p>
@@ -127,12 +142,13 @@ export function UserProfile() {
 ```
 
 **After:**
+
 ```typescript
 import { useAuth } from '@/stores';
 
 export function UserProfile() {
   const { user, clearUser } = useAuth();
-  
+
   return (
     <div>
       <p>{user?.firstname}</p>
@@ -156,10 +172,10 @@ import { loadDashboardModule } from '@/stores/modules/dashboard/dashboardSlice';
 
 function DashboardPage() {
   const { loading, loaded } = useModule('dashboard', loadDashboardModule);
-  
+
   if (loading) return <Loading />;
   if (!loaded) return null;
-  
+
   return <DashboardContent />;
 }
 ```
@@ -173,7 +189,7 @@ import { useApp } from '@/stores';
 
 function ThemeSwitcher() {
   const { theme, setTheme } = useApp();
-  
+
   return (
     <select value={theme} onChange={(e) => setTheme(e.target.value)}>
       <option value="light">Light</option>
@@ -188,7 +204,7 @@ function ThemeSwitcher() {
 Performance optimization với selectors:
 
 ```typescript
-import { useStore, selectUser, selectSidebarOpen } from '@/stores';
+import { selectSidebarOpen, selectUser, useStore } from '@/stores';
 
 function MyComponent() {
   const user = useStore(selectUser);
@@ -206,10 +222,10 @@ File `src/stores/useUIStore.ts` vẫn tồn tại nhưng **deprecated**.
 
 ```typescript
 // ⚠️ Deprecated - will be removed in future version
-import { useUIStore } from '@/stores/useUIStore';
 
 // ✅ Use instead
 import { useUI } from '@/stores';
+import { useUIStore } from '@/stores/useUIStore';
 ```
 
 ### useAuthStore (Deprecated)
@@ -219,7 +235,6 @@ Store trong `src/features/auth/hooks/useAuth.ts` vẫn hoạt động nhưng **d
 ```typescript
 // ⚠️ Deprecated
 import { useAuthStore } from '@/features/auth/hooks/useAuth';
-
 // ✅ Use instead
 import { useAuth } from '@/stores';
 ```
@@ -231,13 +246,15 @@ import { useAuth } from '@/stores';
 ### Issue: "Cannot find module '@/stores'"
 
 **Solution:** Đảm bảo import từ đúng path:
+
 ```typescript
-import { useStore, useAuth, useUI } from '@/stores';
+import { useAuth, useStore, useUI } from '@/stores';
 ```
 
 ### Issue: "Property 'user' does not exist on type 'StoreState'"
 
 **Solution:** Access qua slice:
+
 ```typescript
 // ❌ Wrong
 const user = useStore((state) => state.user);
@@ -249,12 +266,13 @@ const user = useStore((state) => state.auth.user);
 ### Issue: Module not loading
 
 **Solution:** Đảm bảo gọi `useModule` trong component:
+
 ```typescript
 function MyPage() {
   const { loaded } = useModule('myModule', loadMyModule);
-  
+
   if (!loaded) return <Loading />;
-  
+
   return <Content />;
 }
 ```

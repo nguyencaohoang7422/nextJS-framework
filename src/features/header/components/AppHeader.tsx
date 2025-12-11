@@ -5,15 +5,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { ThemeToggleButton } from '@/features/auth/components/ThemeToggleButton';
-import { useLogout } from '@/features/auth/hooks/useAuth';
 import { useSidebar } from '@/providers/SidebarProvider';
+import { useUIStore } from '@/stores/useUIStore';
 
 import UserDropdown from './UserDropdown';
 
 const AppHeader: React.FC = () => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
-  const logout = useLogout();
-  const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
+  const { isMobileOpen, toggleMobileSidebar } = useSidebar();
+  const { toggleSidebar } = useUIStore();
 
   const handleToggle = () => {
     if (window.innerWidth >= 1024) {

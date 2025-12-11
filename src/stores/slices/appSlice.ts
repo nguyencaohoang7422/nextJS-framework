@@ -1,5 +1,6 @@
-import { StateCreator } from "zustand";
-import { AppSlice, StoreState } from "../types";
+import { StateCreator } from 'zustand';
+
+import { AppSlice, StoreState } from '../types';
 
 /**
  * App Slice
@@ -9,8 +10,8 @@ export const createAppSlice: StateCreator<StoreState, [], [], AppSlice> = (
   set,
 ) => ({
   // Initial state
-  theme: "system",
-  language: "en",
+  theme: 'light',
+  language: 'en',
   notifications: [],
 
   // Actions

@@ -1,5 +1,6 @@
-import { StateCreator } from "zustand";
-import { StoreState, UISlice } from "../types";
+import { StateCreator } from 'zustand';
+
+import { StoreState, UISlice } from '../types';
 
 /**
  * UI Slice
@@ -10,7 +11,7 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
   get,
 ) => ({
   // Initial state
-  sidebarOpen: false,
+  sidebarOpen: true,
   headerVisible: true,
   menuItems: [],
   menuLoading: false,
@@ -58,11 +59,11 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
     }));
 
     try {
-      const isDev = process.env.NODE_ENV === "development";
+      const isDev = process.env.NODE_ENV === 'development';
 
       if (isDev) {
         // Load from local file in development
-        const { menuData } = await import("@/data/menuData");
+        const { menuData } = await import('@/data/menuData');
         set((state) => ({
           ui: { ...state.ui, menuItems: menuData.items, menuLoading: false },
         }));
@@ -72,7 +73,7 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
         const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
 
         try {
-          const response = await fetch("/api/menu", {
+          const response = await fetch('/api/menu', {
             signal: controller.signal,
           });
           clearTimeout(timeoutId);
@@ -91,17 +92,17 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (
       }
     } catch (error) {
       console.error(
-        "Failed to load menu data, falling back to mock data:",
+        'Failed to load menu data, falling back to mock data:',
         error,
       );
       // Fallback to mock data
       try {
-        const { menuData } = await import("@/data/menuData");
+        const { menuData } = await import('@/data/menuData');
         set((state) => ({
           ui: { ...state.ui, menuItems: menuData.items, menuLoading: false },
         }));
       } catch (fallbackError) {
-        console.error("Failed to load fallback menu data:", fallbackError);
+        console.error('Failed to load fallback menu data:', fallbackError);
         set((state) => ({
           ui: { ...state.ui, menuItems: [], menuLoading: false },
         }));

@@ -1,6 +1,8 @@
-import { MenuItem } from "@/types/menu";
-import { create } from "zustand";
-import { logger } from "./middleware/logger";
+import { create } from 'zustand';
+
+import { MenuItem } from '@/types/menu';
+
+import { logger } from './middleware/logger';
 
 interface UIState {
   sidebarOpen: boolean;
@@ -43,20 +45,20 @@ export const useUIStore = create<UIState>()(
       set({ menuLoading: true });
 
       try {
-        const isDev = process.env.NODE_ENV === "development";
+        const isDev = process.env.NODE_ENV === 'development';
 
         if (isDev) {
           // Load from local file in development
-          const { menuData } = await import("@/data/menuData");
+          const { menuData } = await import('@/data/menuData');
           set({ menuItems: menuData.items });
         } else {
           // Load from API in production
-          const response = await fetch("/api/menu");
+          const response = await fetch('/api/menu');
           const data = await response.json();
           set({ menuItems: data.items || [] });
         }
       } catch (error) {
-        console.error("Failed to load menu data:", error);
+        console.error('Failed to load menu data:', error);
         set({ menuItems: [] });
       } finally {
         set({ menuLoading: false });
